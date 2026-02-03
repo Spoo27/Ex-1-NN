@@ -1,5 +1,5 @@
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME : SPOORTHI V</H3>
+<H3>ENTER YOUR REGISTER NO. : 212224230271</H3>
 <H3>EX. NO.1</H3>
 <H3>DATE</H3>
 <H1 ALIGN =CENTER> Introduction to Kaggle and Data preprocessing</H1>
@@ -37,11 +37,66 @@ STEP 5:Normalizing the data<BR>
 STEP 6:Splitting the data into test and train<BR>
 
 ##  PROGRAM:
-TYPE YOUR CODE HERE
+```
+#Import libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+
+data = pd.read_csv("Churn_Modelling.csv")
+print("First 5 rows:\n", data.head())
+
+print("\nDataset Info:\n")
+print(data.info())
+
+print("\nMissing Values:\n")
+print(data.isnull().sum())
+
+print("\nStatistical Summary:\n")
+print(data.describe())
+
+# RowNumber, CustomerId, and Surname don't help prediction
+data = data.drop(['RowNumber','CustomerId','Surname'], axis=1)
+
+label = LabelEncoder()
+data['Geography'] = label.fit_transform(data['Geography'])
+data['Gender'] = label.fit_transform(data['Gender'])
+
+print("\nAfter Encoding:\n", data.head())
+
+X = data.drop('Exited', axis=1).values   # features
+y = data['Exited'].values                # target
+
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+print("\nNormalized Features (first 5 rows):\n", X_scaled[:5])
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.2, random_state=42
+)
+
+print("\nTraining set size:", X_train.shape)
+print("Testing set size:", X_test.shape)
+```
+
 
 
 ## OUTPUT:
-SHOW YOUR OUTPUT HERE
+
+<img width="733" height="469" alt="image" src="https://github.com/user-attachments/assets/c5f6cb8d-510e-4313-9b6d-b76df50134cb" />
+<br><br>
+<img width="496" height="522" alt="image" src="https://github.com/user-attachments/assets/161b96f1-cb80-4d75-81af-70fe43ba8f30" />
+<br><br>
+<img width="265" height="381" alt="image" src="https://github.com/user-attachments/assets/9f33e957-cc2a-493c-bace-448bb251122e" />
+<br><br>
+<img width="769" height="684" alt="image" src="https://github.com/user-attachments/assets/ffff23ce-1a22-4eac-8b41-f15995c2acdc" />
+<br><br>
+<img width="749" height="579" alt="image" src="https://github.com/user-attachments/assets/e9e7d58b-03bf-4d6d-9b57-0effcedd289b" />
+<br><br>
+<img width="289" height="57" alt="image" src="https://github.com/user-attachments/assets/03fcd26b-c0f5-46e2-8793-751f5cab57a0" />
+<br><br>
+
 
 
 ## RESULT:
